@@ -21,22 +21,28 @@
             tag.name
           }}</b-tag>
         </b-taglist>
-        <!-- TODO: Add read more component -->
-        {{ item.description }}
-        <a href="#">#responsive</a>
+
+        <read-more :text="item.description"></read-more>
+
         <br />
-        <time :datetime="updatedAt">{{ item.updatedAt | formatDateTime }}</time>
+        <time :datetime="item.updatedAt">{{
+          item.updatedAt | formatDateTime
+        }}</time>
       </div>
     </div>
     <footer class="card-footer">
       <!-- TODO: Add valid actions -->
-      <a href="#" class="card-footer-item">Save</a>
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <router-link
+        class="card-footer-item"
+        :to="{ name: 'Details', params: { id: item.id } }"
+        >View</router-link
+      >
     </footer>
   </div>
 </template>
 <script>
+import ReadMore from "@raublekick/vue-read-more";
+
 export default {
   name: "ResourceCard",
   data() {
@@ -48,6 +54,10 @@ export default {
       type: Object,
       required: true
     }
+  },
+
+  components: {
+    ReadMore
   }
 };
 </script>
