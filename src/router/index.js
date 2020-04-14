@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ResourceDetails from "../views/Details";
+import PageNotFound from "../views/404";
 
 Vue.use(VueRouter);
 
@@ -12,9 +13,9 @@ const routes = [
     component: Home
   },
   {
-    path: "/:id",
-    name: "Details",
-    component: ResourceDetails
+    path: "/page-not-found",
+    name: "404",
+    component: PageNotFound
   },
   {
     path: "/about",
@@ -24,6 +25,16 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/:id/:name",
+    name: "Details",
+    component: ResourceDetails,
+    props: true
+  },
+  {
+    path: "*",
+    component: PageNotFound
   }
 ];
 

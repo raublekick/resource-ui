@@ -1,6 +1,6 @@
 <!-- TODO: Unit test -->
 <template>
-  <section>
+  <div>
     <b-field>
       <b-input
         placeholder="Search..."
@@ -17,18 +17,12 @@
       :active.sync="isFetching"
       :can-cancel="true"
     ></b-loading>
-    <div class="columns">
-      <div class="column" v-for="item in data" :key="item.id">
-        <resource-card :item="item" />
-      </div>
-    </div>
-  </section>
+  </div>
 </template>
 
 <script>
 import debounce from "lodash/debounce";
 import resourceApi from "@/api/resources";
-import ResourceCard from "@/components/ResourceCard";
 
 export default {
   data() {
@@ -39,21 +33,37 @@ export default {
     };
   },
 
-  components: {
-    ResourceCard
+  props: {
+    searchFunction: {
+      type: Function,
+      required: false
+    }
   },
+
+  computed: {},
 
   methods: {
     // You have to install and import debounce to use it,
     // it's not mandatory though.
+    searchMethod(search) {
+      if (this.searchFunction) {
+        return this.searchFunction(search);
+      } else {
+        return this.searchAll(search);
+      }
+    },
+
+    searchAll: function(search) {
+      return resourceApi.getResources(search);
+    },
+
     getAsyncData: debounce(function(search) {
       if (!search.length) {
         this.data = [];
         return;
       }
       this.isFetching = true;
-      resourceApi
-        .getResources(search)
+      this.searchMethod(search)
         .then(({ data }) => {
           this.data = [];
           data.forEach(item => this.data.push(item));
@@ -71,6 +81,7 @@ export default {
           throw error;
         })
         .finally(() => {
+          this.$emit("complete", this.data);
           this.isFetching = false;
         });
     }, 500)

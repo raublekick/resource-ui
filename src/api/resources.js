@@ -16,5 +16,9 @@ export default {
 
   getResourceCollection(resourceId) {
     return axios.get("/resources/" + resourceId + "/collection");
+  },
+
+  getResourceParents(resourceId) {
+    return axios.get("/resources/" + resourceId + "/belongs-to");
   }
 };
