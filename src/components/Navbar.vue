@@ -47,7 +47,7 @@
             v-if="isLoggedIn"
             type="button"
             class="button is-light"
-            :to="{ name: 'Login' }"
+            :to="{ name: 'Logout' }"
           >
             <strong>Log out</strong>
           </router-link>

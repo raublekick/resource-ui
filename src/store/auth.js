@@ -20,6 +20,7 @@ export const auth = {
           commit("loginSuccess", user);
           if (user.data.token) {
             localStorage.setItem("user", JSON.stringify(user.data));
+            this.user = user.data;
           }
           return Promise.resolve(user);
         },
