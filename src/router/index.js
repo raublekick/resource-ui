@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/Home";
+import Register from "../views/Register";
 import ResourceDetails from "../views/Details";
 import PageNotFound from "../views/404";
 
@@ -16,6 +17,11 @@ const routes = [
     path: "/page-not-found",
     name: "404",
     component: PageNotFound
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register
   },
   {
     path: "/about",

@@ -1,12 +1,26 @@
 <template>
   <div id="app">
-    <!-- TODO: Replace nav bar -->
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <nav-menu />
+    <div class="container">
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
 
-<style lang="scss"></style>
+<script>
+import NavMenu from "@/components/Navbar";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    NavMenu
+  }
+};
+</script>
+
+<style lang="scss">
+.navbar {
+  margin-bottom: 0.75rem;
+}
+</style>

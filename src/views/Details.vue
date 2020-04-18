@@ -1,6 +1,6 @@
 <!-- TODO: Unit test -->
 <template>
-  <section class="container">
+  <section>
     <div class="columns">
       <div class="column is-three-quarters">
         <b-loading
