@@ -7,5 +7,8 @@ export default {
   },
   login(user) {
     return axios.post("/auth/login", user);
+  },
+  logout() {
+    localStorage.removeItem("user");
   }
 };

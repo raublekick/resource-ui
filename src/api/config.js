@@ -1,12 +1,20 @@
 import axios from "axios";
 
+function authHeader() {
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if (user && user.accessToken) {
+    return { Authorization: "Bearer " + user.accessToken };
+  } else {
+    return {};
+  }
+}
+
 export default function setup() {
   var instance = axios.create({
     baseURL: process.env.VUE_APP_BASE_URI,
-    withCredentials: true
-    // headers: {
-    //   "X-Requested-With": "XMLHttpRequest"
-    // }
+    withCredentials: true,
+    headers: authHeader()
   });
 
   instance.interceptors.request.use(

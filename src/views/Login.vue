@@ -48,8 +48,6 @@
   </section>
 </template>
 <script>
-import authApi from "../api/auth";
-
 export default {
   name: "Login",
   data() {
@@ -66,23 +64,45 @@ export default {
       isFetching: false
     };
   },
-
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
   methods: {
     submit: function() {
       this.isFetching = true;
-      authApi
-        .login(this.user)
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.log(error);
-          this.errorMessage = error.response.data.error;
-          this.showError = true;
-        })
+      this.$store
+        .dispatch("auth/login", this.user)
+        .then(
+          () => {
+            this.$router.push({ name: "Home" });
+          },
+          error => {
+            this.loading = false;
+            this.message =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+          }
+        )
         .finally(() => {
           this.isFetching = false;
         });
+
+      // authApi
+      //   .login(this.user)
+      //   .then(result => {
+      //     console.log(result);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //     this.errorMessage = error.response.data.error;
+      //     this.showError = true;
+      //   })
+      //   .finally(() => {
+      //     this.isFetching = false;
+      //   });
     }
   }
 };

@@ -36,14 +36,34 @@
             <strong>Sign up</strong>
           </router-link>
           <router-link
+            v-if="!isLoggedIn"
             type="button"
             class="button is-light"
             :to="{ name: 'Login' }"
           >
             <strong>Log in</strong>
           </router-link>
+          <router-link
+            v-if="isLoggedIn"
+            type="button"
+            class="button is-light"
+            :to="{ name: 'Login' }"
+          >
+            <strong>Log out</strong>
+          </router-link>
         </div>
       </b-navbar-item>
     </template>
   </b-navbar>
 </template>
+<script>
+export default {
+  name: "Navbar",
+  computed: {
+    isLoggedIn() {
+      console.log(this.$store.state);
+      return this.$store.state.auth.status.loggedIn;
+    }
+  }
+};
+</script>
