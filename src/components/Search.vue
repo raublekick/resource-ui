@@ -5,8 +5,7 @@
       <b-input
         placeholder="Search..."
         type="search"
-        icon-pack="fas"
-        icon="search"
+        icon="magnify"
         :loading="isFetching"
         @input="getAsyncData"
       >

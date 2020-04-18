@@ -37,6 +37,16 @@
           </b-input>
         </b-field>
 
+        <b-notification
+          type="is-danger"
+          has-icon
+          aria-close-label="Close notification"
+          role="alert"
+          :active.sync="showError"
+        >
+          {{ errorMessage }}
+        </b-notification>
+
         <button type="submit" class="button is-primary">Register</button>
 
         <div class="has-text-centered" style="margin-top:0.75rem">
@@ -49,6 +59,8 @@
   </section>
 </template>
 <script>
+import authApi from "../api/auth";
+
 export default {
   name: "Register",
   data() {
@@ -59,13 +71,24 @@ export default {
         firstName: "",
         lastName: "",
         email: ""
-      }
+      },
+      showError: false,
+      errorMessage: ""
     };
   },
 
   methods: {
-    submit: event => {
-      console.log(event);
+    submit: function() {
+      authApi
+        .register(this.user)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.log(error);
+          this.errorMessage = error.response.data.error;
+          this.showError = true;
+        });
     }
   }
 };
