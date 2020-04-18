@@ -35,9 +35,13 @@
           >
             <strong>Sign up</strong>
           </router-link>
-          <a class="button is-light">
-            Log in
-          </a>
+          <router-link
+            type="button"
+            class="button is-light"
+            :to="{ name: 'Login' }"
+          >
+            <strong>Log in</strong>
+          </router-link>
         </div>
       </b-navbar-item>
     </template>

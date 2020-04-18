@@ -26,23 +26,6 @@
           </b-input>
         </b-field>
 
-        <b-field label="First Name">
-          <b-input v-model="user.firstName" placeholder="First Name"></b-input>
-        </b-field>
-
-        <b-field label="Last Name">
-          <b-input v-model="user.lastName" placeholder="Last Name"></b-input>
-        </b-field>
-
-        <b-field label="Email">
-          <b-input
-            type="email"
-            v-model="user.email"
-            placeholder="email@example.com"
-          >
-          </b-input>
-        </b-field>
-
         <b-notification
           type="is-danger"
           has-icon
@@ -53,11 +36,11 @@
           {{ errorMessage }}
         </b-notification>
 
-        <button type="submit" class="button is-primary">Register</button>
+        <button type="submit" class="button is-primary">Log in</button>
 
         <div class="has-text-centered" style="margin-top:0.75rem">
-          <router-link :to="{ name: 'Login' }"
-            >Already have an account? Login here</router-link
+          <router-link :to="{ name: 'Register' }"
+            >Don't have an account? Register here</router-link
           >
         </div>
       </form>
@@ -68,7 +51,7 @@
 import authApi from "../api/auth";
 
 export default {
-  name: "Register",
+  name: "Login",
   data() {
     return {
       user: {
@@ -88,7 +71,7 @@ export default {
     submit: function() {
       this.isFetching = true;
       authApi
-        .register(this.user)
+        .login(this.user)
         .then(result => {
           console.log(result);
         })
