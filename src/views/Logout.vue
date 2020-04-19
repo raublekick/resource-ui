@@ -49,6 +49,9 @@ export default {
           this.isFetching = false;
         });
     }
+  },
+  created() {
+    this.logout();
   }
 };
 </script>

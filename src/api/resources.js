@@ -20,5 +20,9 @@ export default {
 
   getResourceParents(resourceId) {
     return axios.get("/resources/" + resourceId + "/belongs-to");
+  },
+
+  add(resource) {
+    return axios.post("/resources", resource);
   }
 };

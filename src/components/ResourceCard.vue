@@ -4,9 +4,9 @@
     <div class="card-content">
       <div class="media">
         <!-- Add icon if saved -->
-        <div class="media-left" v-if="item.url">
+        <div class="media-left" v-if="item.image">
           <figure class="image is-48x48">
-            <img :src="item.url" :alt="item.title" />
+            <img :src="item.image" :alt="item.title" />
           </figure>
         </div>
         <div class="media-content">
@@ -16,6 +16,9 @@
       </div>
 
       <div class="content">
+        <a :href="item.url" target="_blank" :title="item.title"
+          ><b-icon icon="link" size="is-small"> </b-icon> {{ item.url }}
+        </a>
         <b-taglist>
           <b-tag v-for="tag in item.Tags" :key="tag.id" type="is-primary">{{
             tag.name

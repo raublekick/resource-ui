@@ -17,10 +17,9 @@ export const auth = {
     login({ commit }, user) {
       return AuthService.login(user).then(
         user => {
-          commit("loginSuccess", user);
+          commit("loginSuccess", user.data);
           if (user.data.token) {
             localStorage.setItem("user", JSON.stringify(user.data));
-            this.user = user.data;
           }
           return Promise.resolve(user);
         },
@@ -36,12 +35,15 @@ export const auth = {
     },
     register({ commit }, user) {
       return AuthService.register(user).then(
-        response => {
-          commit("registerSuccess");
-          return Promise.resolve(response.data);
+        user => {
+          commit("loginSuccess", user);
+          if (user.data.token) {
+            localStorage.setItem("user", JSON.stringify(user.data));
+          }
+          return Promise.resolve(user);
         },
         error => {
-          commit("registerFailure");
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );

@@ -65,8 +65,6 @@
   </section>
 </template>
 <script>
-import authApi from "../api/auth";
-
 export default {
   name: "Register",
   data() {
@@ -87,16 +85,21 @@ export default {
   methods: {
     submit: function() {
       this.isFetching = true;
-      authApi
-        .register(this.user)
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.log(error);
-          this.errorMessage = error.response.data.error;
-          this.showError = true;
-        })
+      this.$store
+        .dispatch("auth/register", this.user)
+        .then(
+          () => {
+            this.$router.push({ name: "Home" });
+          },
+          error => {
+            this.loading = false;
+            this.message =
+              (error.response && error.response.data.error) ||
+              error.message ||
+              error.toString();
+            this.showError = true;
+          }
+        )
         .finally(() => {
           this.isFetching = false;
         });

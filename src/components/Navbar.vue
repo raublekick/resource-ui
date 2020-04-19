@@ -12,6 +12,9 @@
       <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
         Home
       </b-navbar-item>
+      <b-navbar-item v-if="isLoggedIn" tag="router-link" :to="{ name: 'Add' }">
+        Add Resource
+      </b-navbar-item>
       <b-navbar-item href="#">
         Documentation
       </b-navbar-item>

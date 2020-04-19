@@ -3,8 +3,8 @@ import axios from "axios";
 function authHeader() {
   let user = JSON.parse(localStorage.getItem("user"));
 
-  if (user && user.accessToken) {
-    return { Authorization: "Bearer " + user.accessToken };
+  if (user && user.token) {
+    return "Bearer " + user.token;
   } else {
     return {};
   }
@@ -13,13 +13,13 @@ function authHeader() {
 export default function setup() {
   var instance = axios.create({
     baseURL: process.env.VUE_APP_BASE_URI,
-    withCredentials: true,
-    headers: authHeader()
+    withCredentials: true
   });
 
   instance.interceptors.request.use(
     function(config) {
       // Do something before request is sent
+      config.headers.Authorization = authHeader();
       return config;
     },
     function(error) {

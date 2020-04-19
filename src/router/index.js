@@ -5,7 +5,10 @@ import Register from "../views/Register";
 import Login from "../views/Login";
 import Logout from "../views/Logout";
 import ResourceDetails from "../views/Details";
+import ResourceAdd from "../views/Add";
 import PageNotFound from "../views/404";
+
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -45,6 +48,12 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
+    path: "/add",
+    name: "Add",
+    component: ResourceAdd,
+    meta: { requireLogin: true }
+  },
+  {
     path: "/:id/:name",
     name: "Details",
     component: ResourceDetails,
@@ -60,6 +69,20 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  var requireLogin = to.meta.requireLogin;
+
+  if (!requireLogin) {
+    next();
+  } else {
+    if (store.state.auth.status.loggedIn) {
+      next();
+    } else {
+      next(Error("Not allowed"));
+    }
+  }
 });
 
 export default router;

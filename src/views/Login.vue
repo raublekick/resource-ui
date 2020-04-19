@@ -33,7 +33,7 @@
           role="alert"
           :active.sync="showError"
         >
-          {{ errorMessage }}
+          {{ message }}
         </b-notification>
 
         <button type="submit" class="button is-primary">Log in</button>
@@ -60,7 +60,7 @@ export default {
         email: ""
       },
       showError: false,
-      errorMessage: "",
+      message: "",
       isFetching: false
     };
   },
@@ -81,9 +81,10 @@ export default {
           error => {
             this.loading = false;
             this.message =
-              (error.response && error.response.data) ||
+              (error.response && error.response.data.error) ||
               error.message ||
               error.toString();
+            this.showError = true;
           }
         )
         .finally(() => {
