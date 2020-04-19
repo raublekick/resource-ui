@@ -2,10 +2,11 @@
   <b-navbar>
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-        <img
+        <!-- <img
           src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
           alt="Neighborhood resource collections"
-        />
+        /> -->
+        <b-icon icon="handshake" size="is-large" type="is-primary"> </b-icon>
       </b-navbar-item>
     </template>
     <template slot="start">

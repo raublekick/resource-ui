@@ -21,6 +21,12 @@
         <resource-card :item="item" />
       </div>
     </div>
+
+    <div v-if="!data.length">
+      <b-message type="is-info" has-icon>
+        Begin searching to find resources.
+      </b-message>
+    </div>
   </section>
 </template>
 
