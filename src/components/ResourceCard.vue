@@ -16,7 +16,7 @@
       </div>
 
       <div class="content">
-        <a :href="item.url" target="_blank" :title="item.title"
+        <a v-if="item.url" :href="item.url" target="_blank" :title="item.title"
           ><b-icon icon="link" size="is-small"> </b-icon> {{ item.url }}
         </a>
         <b-taglist>

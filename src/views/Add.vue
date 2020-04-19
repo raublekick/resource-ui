@@ -22,6 +22,38 @@
           <b-input v-model="form.url" placeholder="URL" type="url"></b-input>
         </b-field>
 
+        <b-field label="Address">
+          <b-input
+            v-model="form.address"
+            placeholder="123 Test St."
+            type="text"
+          ></b-input>
+        </b-field>
+
+        <b-field label="Enter some tags">
+          <b-taginput
+            v-model="form.tags"
+            :data="filteredTags"
+            autocomplete
+            allow-new
+            field="name"
+            icon="label"
+            placeholder="Add a tag"
+            @typing="getFilteredTags"
+          >
+          </b-taginput>
+        </b-field>
+
+        <b-field>
+          <b-checkbox v-model="form.private">
+            Private
+          </b-checkbox>
+        </b-field>
+
+        <b-message type="is-info" has-icon>
+          Private resources will only be visible to you.
+        </b-message>
+
         <b-field label="Description">
           <vue-editor
             id="descriptionEditor"
@@ -47,6 +79,8 @@
 <script>
 import { VueEditor } from "vue2-editor";
 import ResourceApi from "../api/resources";
+import TagsApi from "../api/tags";
+import debounce from "lodash/debounce";
 
 export default {
   name: "AddResource",
@@ -59,8 +93,11 @@ export default {
         coverPhoto: "",
         url: "",
         address: "",
-        description: ""
+        private: false,
+        description: "",
+        tags: []
       },
+      filteredTags: [],
       showError: false,
       message: "",
       isFetching: false
@@ -75,6 +112,28 @@ export default {
     }
   },
   methods: {
+    selectTag: function(tag) {
+      console.log(tag);
+      console.log(this.form.tags);
+    },
+    getFilteredTags: debounce(function(search) {
+      if (!search.length) {
+        this.filteredTags = [];
+        return;
+      }
+      this.isFetching = true;
+      TagsApi.getTags(search)
+        .then(({ data }) => {
+          this.filteredTags = data;
+        })
+        .catch(error => {
+          this.filteredTags = [];
+          throw error;
+        })
+        .finally(() => {
+          this.isFetching = false;
+        });
+    }, 500),
     submit: function() {
       this.isFetching = true;
       ResourceApi.add(this.form)
