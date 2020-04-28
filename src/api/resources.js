@@ -22,7 +22,18 @@ export default {
     return axios.get("/resources/" + resourceId + "/belongs-to");
   },
 
+  getUserResources() {
+    return axios.get("/resources/user/resources");
+  },
+
   add(resource) {
     return axios.post("/resources", resource);
+  },
+
+  addToCollection(parentId, childId) {
+    return axios.post("/resources/collection", {
+      parentId: parentId,
+      childId: childId
+    });
   }
 };

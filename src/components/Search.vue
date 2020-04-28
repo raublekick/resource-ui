@@ -16,11 +16,7 @@
       :active.sync="isFetching"
       :can-cancel="true"
     ></b-loading>
-    <div class="columns">
-      <div class="column" v-for="item in data" :key="item.id">
-        <resource-card :item="item" />
-      </div>
-    </div>
+    <resource-list :items="data" />
 
     <div v-if="!data.length">
       <b-message type="is-info" has-icon>
@@ -33,7 +29,7 @@
 <script>
 import debounce from "lodash/debounce";
 import resourceApi from "@/api/resources";
-import ResourceCard from "@/components/ResourceCard";
+import ResourceList from "@/components/ResourceList";
 
 export default {
   data() {
@@ -45,7 +41,7 @@ export default {
   },
 
   components: {
-    ResourceCard
+    ResourceList
   },
 
   methods: {
