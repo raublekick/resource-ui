@@ -10,5 +10,8 @@ export default {
   },
   logout() {
     localStorage.removeItem("user");
+  },
+  refreshToken(refreshToken) {
+    return axios.post("auth/token", { token: refreshToken });
   }
 };

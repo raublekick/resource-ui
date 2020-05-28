@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from "../store/index";
+import router from "../router";
 
 function authHeader() {
   let user = JSON.parse(localStorage.getItem("user"));
@@ -36,11 +38,48 @@ export default function setup() {
       // Do something with response error
       console.log(error);
 
-      if (error.response && error.response.status === 403) {
-        window.location.href = "/not-authorized";
+      // Return any error which is not due to authentication back to the calling service
+      if (error.response.status !== 401) {
+        return new Promise((resolve, reject) => {
+          reject(error);
+        });
       }
 
-      return Promise.reject(error);
+      // Logout user if token refresh didn't work or user is disabled
+      if (
+        error.config.url == "/api/auth/token" ||
+        error.response.message == "Account is disabled."
+      ) {
+        store.commit("logout");
+        router.push({ name: "home" });
+
+        return new Promise((resolve, reject) => {
+          reject(error);
+        });
+      }
+
+      // Try request again with new token
+      return store
+        .dispatch("auth/refreshToken")
+        .then(user => {
+          // New request with new token
+          const config = error.config;
+          config.headers["Authorization"] = `Bearer ${user.token}`;
+
+          return new Promise((resolve, reject) => {
+            axios
+              .request(config)
+              .then(response => {
+                resolve(response);
+              })
+              .catch(error => {
+                reject(error);
+              });
+          });
+        })
+        .catch(error => {
+          Promise.reject(error);
+        });
     }
   );
 

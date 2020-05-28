@@ -14,13 +14,11 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
-    login({ commit }, user) {
+    login({ commit, state }, user) {
       return AuthService.login(user).then(
         user => {
           commit("loginSuccess", user.data);
-          if (user.data.token) {
-            localStorage.setItem("user", JSON.stringify(user.data));
-          }
+          localStorage.setItem("user", JSON.stringify(state.user));
           return Promise.resolve(user);
         },
         error => {
@@ -33,13 +31,24 @@ export const auth = {
       AuthService.logout();
       commit("logout");
     },
-    register({ commit }, user) {
+    refreshToken({ commit, state }) {
+      return AuthService.refreshToken(state.user.refreshToken).then(
+        response => {
+          commit("setToken", response.data.token);
+          localStorage.setItem("user", JSON.stringify(state.user));
+          return Promise.resolve(user);
+        },
+        error => {
+          commit("loginFailure");
+          return Promise.reject(error);
+        }
+      );
+    },
+    register({ commit, state }, user) {
       return AuthService.register(user).then(
         user => {
           commit("loginSuccess", user);
-          if (user.data.token) {
-            localStorage.setItem("user", JSON.stringify(user.data));
-          }
+          localStorage.setItem("user", JSON.stringify(state.user));
           return Promise.resolve(user);
         },
         error => {
@@ -61,6 +70,9 @@ export const auth = {
     logout(state) {
       state.status.loggedIn = false;
       state.user = null;
+    },
+    setToken(state, token) {
+      state.user.token = token;
     },
     registerSuccess(state) {
       state.status.loggedIn = false;
