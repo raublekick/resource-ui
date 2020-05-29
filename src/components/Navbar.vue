@@ -33,6 +33,7 @@
       <b-navbar-item tag="div">
         <div class="buttons">
           <router-link
+            v-if="!isLoggedIn"
             type="button"
             class="button is-primary"
             :to="{ name: 'Register' }"

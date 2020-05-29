@@ -47,7 +47,7 @@ export const auth = {
     register({ commit, state }, user) {
       return AuthService.register(user).then(
         user => {
-          commit("loginSuccess", user);
+          commit("loginSuccess", user.data);
           localStorage.setItem("user", JSON.stringify(state.user));
           return Promise.resolve(user);
         },
