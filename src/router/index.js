@@ -6,6 +6,7 @@ import Login from "../views/Login";
 import Logout from "../views/Logout";
 import ResourceDetails from "../views/Details";
 import ResourceAdd from "../views/Add";
+import ResourceEdit from "../views/Edit";
 import PageNotFound from "../views/404";
 
 import store from "../store";
@@ -51,6 +52,13 @@ const routes = [
     path: "/add",
     name: "Add",
     component: ResourceAdd,
+    meta: { requireLogin: true }
+  },
+  {
+    path: "/edit/:id",
+    name: "Edit",
+    component: ResourceEdit,
+    props: true,
     meta: { requireLogin: true }
   },
   {

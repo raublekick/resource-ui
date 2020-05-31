@@ -30,6 +30,10 @@ export default {
     return axios.post("/resources", resource);
   },
 
+  edit(resource) {
+    return axios.put("/resources", resource);
+  },
+
   addToCollection(parentId, childId) {
     return axios.post("/resources/collection", {
       parentId: parentId,
