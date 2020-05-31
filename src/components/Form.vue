@@ -95,7 +95,7 @@ export default {
         address: "",
         private: false,
         description: "",
-        tags: []
+        Tags: []
       },
       filteredTags: [],
       showError: false,
@@ -154,6 +154,11 @@ export default {
       result
         .then(result => {
           console.log(result);
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: "Saved!",
+            type: "is-success"
+          });
           this.$emit("saved", result.data);
         })
         .catch(error => {
@@ -176,7 +181,9 @@ export default {
     }
   },
   created() {
-    this.form = this.formData;
+    if (this.formData.id) {
+      this.form = this.formData;
+    }
   }
 };
 </script>

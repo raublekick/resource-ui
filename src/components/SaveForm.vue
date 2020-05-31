@@ -108,7 +108,7 @@ export default {
       data: [],
       selected: null,
       isFetching: false,
-      name: "",
+      search: "",
       page: 1,
       totalPages: 1,
       showError: false,
@@ -126,16 +126,16 @@ export default {
   components: {},
 
   methods: {
-    getAsyncData: debounce(function(name) {
+    getAsyncData: debounce(function(search) {
       // String update
-      if (this.name !== name) {
-        this.name = name;
+      if (this.search !== search) {
+        this.search = search;
         this.data = [];
         this.page = 1;
         this.totalPages = 1;
       }
       // String cleared
-      if (!name.length) {
+      if (!search.length) {
         this.data = [];
         this.page = 1;
         this.totalPages = 1;
@@ -146,7 +146,7 @@ export default {
         return;
       }
       this.isFetching = true;
-      ResourceApi.getUserResources()
+      ResourceApi.getUserResources(search)
         .then(({ data }) => {
           this.data = data;
 
@@ -161,7 +161,7 @@ export default {
         });
     }, 500),
     getMoreAsyncData: debounce(function() {
-      this.getAsyncData(this.name);
+      this.getAsyncData(this.search);
     }, 250),
     save: function() {
       var parentId = this.selected.id,

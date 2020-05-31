@@ -63,7 +63,7 @@
             >
             <span class="card-footer-item" v-if="isOwner">
               <router-link
-                :to="{ name: 'Home' }"
+                :to="{ name: 'Edit', params: { id: data.id } }"
                 class="button is-primary is-fullwidth"
                 >Edit</router-link
               >

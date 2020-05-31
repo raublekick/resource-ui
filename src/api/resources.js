@@ -22,8 +22,12 @@ export default {
     return axios.get("/resources/" + resourceId + "/belongs-to");
   },
 
-  getUserResources() {
-    return axios.get("/resources/user/resources");
+  getUserResources(search) {
+    var query = "";
+    if (search && search != "") {
+      query = "?search=" + search;
+    }
+    return axios.get("/resources/user/resources" + query);
   },
 
   add(resource) {
