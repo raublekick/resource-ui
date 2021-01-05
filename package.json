@@ -14,7 +14,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "@mdi/font": "^5.1.45",
     "@raublekick/vue-read-more": "github:raublekick/read-more",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "buefy": "^0.8.15",
     "core-js": "^3.6.4",
     "lodash": "^4.17.15",
